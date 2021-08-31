@@ -14,7 +14,7 @@ describe("Create User", () => {
     it("Should be able to create a new user", async () => {
         const user = await createUserUseCase.execute({
             name: "User test",
-            email: "teste@finapi.com",
+            email: "test@finapi.com",
             password: "12345"
         });
 
@@ -25,13 +25,13 @@ describe("Create User", () => {
         expect(async () => {
             await createUserUseCase.execute({
                 name: "User test",
-                email: "teste@finapi.com",
+                email: "test@finapi.com",
                 password: "12345"
             });
 
             await createUserUseCase.execute({
                 name: "User test",
-                email: "teste@finapi.com",
+                email: "test@finapi.com",
                 password: "12345"
             });
         }).rejects.toBeInstanceOf(AppError);
