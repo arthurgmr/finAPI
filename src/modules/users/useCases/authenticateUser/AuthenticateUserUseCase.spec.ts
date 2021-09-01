@@ -12,8 +12,8 @@ let authenticateUserUseCase: AuthenticateUserUseCase;
 describe("Authenticate User", () => {
     beforeEach(() => {
         userRepositoryInMemory = new InMemoryUsersRepository();
-        authenticateUserUseCase = new AuthenticateUserUseCase(userRepositoryInMemory);
         createUserUseCase = new CreateUserUseCase(userRepositoryInMemory);
+        authenticateUserUseCase = new AuthenticateUserUseCase(userRepositoryInMemory);
     });
 
     it("Should be able to authenticate an user", async () => {
