@@ -4,7 +4,7 @@ import { IGetBalanceDTO } from "../../useCases/getBalance/IGetBalanceDTO";
 import { IGetStatementOperationDTO } from "../../useCases/getStatementOperation/IGetStatementOperationDTO";
 import { IStatementsRepository } from "../IStatementsRepository";
 
-export class InMemoryStatementsRepository implements IStatementsRepository {
+class InMemoryStatementsRepository implements IStatementsRepository {
   private statements: Statement[] = [];
 
   async create(data: ICreateStatementDTO): Promise<Statement> {
@@ -49,3 +49,5 @@ export class InMemoryStatementsRepository implements IStatementsRepository {
     return { balance }
   }
 }
+
+export { InMemoryStatementsRepository }

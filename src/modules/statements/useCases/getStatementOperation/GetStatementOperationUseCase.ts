@@ -6,7 +6,7 @@ import { GetStatementOperationError } from "./GetStatementOperationError";
 
 interface IRequest {
   user_id: string;
-  statement_id: string;
+  statement_id: string | undefined;
 }
 
 @injectable()
