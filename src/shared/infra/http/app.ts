@@ -5,12 +5,14 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 
-import '../typeorm';
+import createConnection from '../typeorm';
 import '../../container';
 import { router } from './routes';
 import { AppError } from '../../errors/AppError';
 
 const app = express();
+
+createConnection();
 
 app.use(cors());
 app.use(express.json());
