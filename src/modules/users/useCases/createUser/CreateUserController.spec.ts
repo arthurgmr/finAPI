@@ -25,13 +25,4 @@ describe("Create User", () => {
 
     expect(response.status).toBe(201)
   });
-
-  it("Should not be able to create a new user without name, email or password", async () => {
-    const response = await request(app).post("/api/v1/users").send({
-      name: "User Test",
-      password: "123456"
-    });
-
-    expect(response.status).toBe(500)
-  });
 });
