@@ -1,7 +1,8 @@
 import { getRepository, Repository } from "typeorm";
 
-import { Statement } from "../entities/Statement";
+import { OperationType, Statement } from "../entities/Statement";
 import { ICreateStatementDTO } from "../useCases/createStatement/ICreateStatementDTO";
+import { ICreateTransferDTO } from "../useCases/createTransfer/ICreateTransferDTO";
 import { IGetBalanceDTO } from "../useCases/getBalance/IGetBalanceDTO";
 import { IGetStatementOperationDTO } from "../useCases/getStatementOperation/IGetStatementOperationDTO";
 import { IStatementsRepository } from "./IStatementsRepository";
@@ -29,6 +30,30 @@ export class StatementsRepository implements IStatementsRepository {
     return this.repository.save(statement);
   }
 
+  async createTransfer({ sender_id, recipient_id, amount, description }: ICreateTransferDTO): Promise<Statement[]> {
+    const senderTransferOp = this.repository.create({
+      user_id: sender_id,
+      recipient_id,
+      amount,
+      description,
+      type: OperationType.TRANSFER
+    });
+
+    const recipientTransferOp = this.repository.create({
+      user_id: recipient_id,
+      sender_id,
+      amount,
+      description,
+      type: OperationType.TRANSFER
+    });
+
+    await this.repository.save(senderTransferOp);
+    await this.repository.save(recipientTransferOp);
+
+    return [senderTransferOp, recipientTransferOp]
+  }
+
+
   async findStatementOperation({ statement_id, user_id }: IGetStatementOperationDTO): Promise<Statement | undefined> {
     return this.repository.findOne(statement_id, {
       where: { user_id }
@@ -45,7 +70,7 @@ export class StatementsRepository implements IStatementsRepository {
     });
 
     const balance = statement.reduce((acc, operation) => {
-      if (operation.type === 'deposit') {
+      if (operation.type === 'deposit' || operation.sender_id) {
         return acc + Number(operation.amount);
       } else {
         return acc - Number(operation.amount);
@@ -61,4 +86,6 @@ export class StatementsRepository implements IStatementsRepository {
 
     return { balance }
   }
+
+
 }
