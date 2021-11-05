@@ -56,7 +56,8 @@ export class StatementsRepository implements IStatementsRepository {
 
   async findStatementOperation({ statement_id, user_id }: IGetStatementOperationDTO): Promise<Statement | undefined> {
     return this.repository.findOne(statement_id, {
-      where: { user_id }
+      where: { user_id },
+      relations: ["recipient", "sender"]
     });
   }
 
@@ -66,7 +67,8 @@ export class StatementsRepository implements IStatementsRepository {
     >
   {
     const statement = await this.repository.find({
-      where: { user_id }
+      where: { user_id },
+      relations: ["recipient", "sender"]
     });
 
     const balance = statement.reduce((acc, operation) => {

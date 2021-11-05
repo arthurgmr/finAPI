@@ -10,4 +10,11 @@ export class ProfileMap {
       updated_at
     }
   }
+
+  static toBalance({id, name, email, password, created_at, updated_at}: User) {
+    return {
+      name,
+      email
+    }
+  }
 }

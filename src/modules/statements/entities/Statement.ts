@@ -18,18 +18,27 @@ export enum OperationType {
 
 @Entity('statements')
 export class Statement {
+  [x: string]: any;
   @PrimaryGeneratedColumn('uuid')
   id?: string;
-
-  @Column('uuid')
-  user_id: string;
 
   @ManyToOne(() => User, user => user.statement)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
+  @Column('uuid')
+  user_id: string;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'sender_id' })
+  sender: User;
+
   @Column()
   sender_id?: string;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'recipient_id' })
+  recipient: User;
 
   @Column()
   recipient_id?: string;

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import { StatementMap } from '../../mappers/StatementMap';
 
 import { GetStatementOperationUseCase } from './GetStatementOperationUseCase';
 
@@ -15,6 +16,8 @@ export class GetStatementOperationController {
       statement_id
     });
 
-    return response.json(statementOperation);
+    const statementOperationDTO = StatementMap.toDTO(statementOperation)
+
+    return response.json(statementOperationDTO);
   }
 }
